@@ -1,14 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+
 using Proj_3.DAL;
+using Proj_3.DAL.Interfaces;
+using Proj_3.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //database configure
 var connection_string = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection_string));
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connection_string));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 
 var app = builder.Build();
 

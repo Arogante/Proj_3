@@ -10,6 +10,6 @@ namespace Proj_3.DAL.Interfaces
 {
     public interface ITeamRepository:IBaseRepository<Team>
     {
-        Team GetByName(string name);
+        Task<Team> GetByName(string name);
     }
 }

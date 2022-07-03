@@ -9,6 +9,7 @@ namespace Proj_3.DAL
         {
             Database.EnsureCreated();
         }
+        
         public DbSet<Team> Teams { get; set; }
 
     }

@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Proj_3.DAL.Interfaces;
 using Proj_3.Models;
 using System.Diagnostics;
 
@@ -9,14 +10,18 @@ namespace Proj_3.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        /*public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-        }
-
-        public IActionResult Index()
+        }*/
+        public HomeController(ITeamRepository teamRepository)
         {
-            
+            _teamRepository = teamRepository;
+        }
+        private readonly ITeamRepository _teamRepository;
+        public async Task<IActionResult> Index()
+        {
+            var resp = await _teamRepository.GetAll();
             return View();
 
         }

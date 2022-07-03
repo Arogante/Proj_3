@@ -18,30 +18,32 @@ namespace Proj_3.DAL.Repositories
             _db = db;
         }
 
-        public bool Create(Team entity)
+        public async Task<bool> Create(Team entity)
         {
-            throw new NotImplementedException();
+            await _db.Teams.AddAsync(entity);
+            return true;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(Team entity)
         {
-            throw new NotImplementedException();
+
+            _db.Teams.Remove(entity);
+            return true;
         }
 
-        public Team Get(int id)
+        public async Task<Team> Get(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Teams.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public IEnumerable<Team> GetAll()
+        public async Task<List<Team>> GetAll()
         {
-            return _db.Teams.ToListAsync();
-            throw new NotImplementedException();
+            return  await _db.Teams.ToListAsync();//throw new NotImplementedException();
         }
 
-        public Team GetByName(string name)
+        public async Task<Team> GetByName(string name)
         {
-            throw new NotImplementedException();
+            return await _db.Teams.FirstOrDefaultAsync(x => x.Name == name);
         }
     }
 }
