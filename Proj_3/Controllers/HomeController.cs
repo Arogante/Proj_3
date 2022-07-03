@@ -16,11 +16,8 @@ namespace Proj_3.Controllers
 
         public IActionResult Index()
         {
-            Team team_a = new Team() { 
-                Name="Team A",
-                Description="Команда по разработке решений в сфере ..."
-            };
-            return View(team_a);
+            
+            return View();
 
         }
 

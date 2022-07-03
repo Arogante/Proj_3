@@ -1,11 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using Proj_3.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//database configure
+var connection_string = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection_string));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-    
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -23,5 +29,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
 
 app.Run();
