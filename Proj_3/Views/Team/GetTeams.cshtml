@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Domain.Entity.Team>
+@{
+}
+@foreach (var team in Model){
+<h2>@team.Name</h2>
+<p>@team.Description</p>
+<p>Очки - @team.Points</p>
+<p>Завершенные задания - @team.FinishedTasks</p>
+}

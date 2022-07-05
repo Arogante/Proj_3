@@ -21,6 +21,7 @@ namespace Proj_3.DAL.Repositories
         public async Task<bool> Create(Team entity)
         {
             await _db.Teams.AddAsync(entity);
+            _db.SaveChangesAsync();
             return true;
         }
 
@@ -28,6 +29,7 @@ namespace Proj_3.DAL.Repositories
         {
 
             _db.Teams.Remove(entity);
+            _db.SaveChangesAsync();
             return true;
         }
 

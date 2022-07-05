@@ -14,22 +14,17 @@ namespace Proj_3.Controllers
         {
             _logger = logger;
         }*/
-        public HomeController(ITeamRepository teamRepository)
+        
+        public IActionResult Index()
         {
-            _teamRepository = teamRepository;
-        }
-        private readonly ITeamRepository _teamRepository;
-        public async Task<IActionResult> Index()
-        {
-            var resp = await _teamRepository.GetAll();
+            
             return View();
 
         }
 
         public IActionResult Privacy()
         {
-            int test = 9;
-            return View(test);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

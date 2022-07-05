@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Proj_3.DAL;
 using Proj_3.DAL.Interfaces;
 using Proj_3.DAL.Repositories;
+using Team.Service.Implementations;
+using Team.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 var app = builder.Build();
 
