@@ -47,5 +47,12 @@ namespace Proj_3.DAL.Repositories
         {
             return await _db.Teams.FirstOrDefaultAsync(x => x.Name == name);
         }
+
+        public async Task<Team> Update(Team entity)
+        {
+            _db.Teams.Update(entity);
+            _db.SaveChangesAsync();
+            return entity;
+        }
     }
 }

@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entity
+namespace Domain.ViewModel.Team
 {
-    public class Team
+    public class TeamViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }      
+        public string Name { get; set; }
         public string Description { get; set; }
         public int FinishedTasks { get; set; }
         public DateTime CreationTime { get; set; }
         public int Points { get; set; }
     }
-    
 }

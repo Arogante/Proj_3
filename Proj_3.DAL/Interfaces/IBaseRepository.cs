@@ -11,7 +11,9 @@ namespace Proj_3.DAL.Interfaces
         Task<bool> Create(T entity);
         Task<T> Get(int id);
         Task<List<T>> GetAll();
-        //bool Update(T entity);
+        
         Task<bool> Delete(T entity);
+
+        Task<T> Update(T entity);
     }
 }
