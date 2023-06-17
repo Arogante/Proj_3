@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Proj_3.DAL.Repositories
 {
-    public class TeamRepository : ITeamRepository
+    public class TeamRepository : IBaseRepository<Domain.Entity.Team>
     {
         private readonly AppDbContext _db;
 
@@ -18,19 +18,18 @@ namespace Proj_3.DAL.Repositories
             _db = db;
         }
 
-        public async Task<bool> Create(Team entity)
+        public async Task Create(Team entity)
         {
             await _db.Teams.AddAsync(entity);
             _db.SaveChangesAsync();
-            return true;
         }
 
-        public async Task<bool> Delete(Team entity)
+        public async Task Delete(Team entity)
         {
 
             _db.Teams.Remove(entity);
             _db.SaveChangesAsync();
-            return true;
+
         }
 
         public async Task<Team> Get(int id)
@@ -38,9 +37,9 @@ namespace Proj_3.DAL.Repositories
             return await _db.Teams.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<Team>> GetAll()
+        public IQueryable<Team> GetAll()
         {
-            return  await _db.Teams.ToListAsync();//throw new NotImplementedException();
+            return _db.Teams;
         }
 
         public async Task<Team> GetByName(string name)

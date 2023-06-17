@@ -1,9 +1,11 @@
 ﻿namespace Domain.Enum
 {
     public enum StatusCode {
-        OK=200,
-        InternalServerError=500,
-        //Team
-        TeamNotFound=44
+        UserNotFound = 0,
+        UserAlreadyExists = 1,
+        TeamNotFound = 10,
+        OrderNotFound = 20,
+        OK = 200,
+        InternalServerError = 500
     }
 }

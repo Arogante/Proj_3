@@ -1,6 +1,22 @@
 ﻿@model IEnumerable<Domain.Entity.Team>
 @{
+	ViewBag.Title = "title";
+	Layout = "_Layout";
 }
+
+<style>
+    .card-buttons-group {
+        text-align: right;
+        padding: 10px;
+    }
+</style>
+
+<div class="card-buttons-group">
+    <button class="btn btn-danger" id='hideCardsId'>Скрыть</button>
+    <button class='btn btn-success' id='showCardsId'>Показать</button>
+</div>
+
+
 @foreach (var team in Model){
 <h2>@team.Name</h2>
 <p>@team.Description</p>

@@ -9,14 +9,15 @@ using Proj_3.DAL.Interfaces;
 using Domain.Response;
 using Domain.Enum;
 using Domain.ViewModel.Team;
+using Microsoft.EntityFrameworkCore;
 
 namespace Team.Service.Implementations
 {
     public class TeamService : ITeamService
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly IBaseRepository<Domain.Entity.Team> _teamRepository;
 
-        public TeamService(ITeamRepository teamRepository)
+        public TeamService(IBaseRepository<Domain.Entity.Team> teamRepository)
         {
             _teamRepository = teamRepository;
         }
@@ -25,7 +26,7 @@ namespace Team.Service.Implementations
             var baseResponse = new BaseResponse<Domain.Entity.Team>();
             try
             {
-                var team = await _teamRepository.Get(id);
+                var team = await _teamRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (team == null)
                 {
                     baseResponse.Description = "Команда не найдена";
@@ -50,8 +51,8 @@ namespace Team.Service.Implementations
             var baseResponse = new BaseResponse<IEnumerable<Domain.Entity.Team>>();
             try
             {
-                var teams = await _teamRepository.GetAll();
-                if (teams.Count == 0)
+                var teams = _teamRepository.GetAll().ToList();
+                if (teams==null)
                 {
                     baseResponse.Description = "Найдено 0 элементов";
                     baseResponse.StatusCode = StatusCode.OK;
@@ -75,7 +76,7 @@ namespace Team.Service.Implementations
             var baseResponse = new BaseResponse<Domain.Entity.Team>();
             try
             {
-                var team = await _teamRepository.GetByName(name);
+                var team = _teamRepository.GetAll().FirstOrDefault(x => x.Name==name);
                 if (team == null)
                 {
                     baseResponse.Description = "Команда не найдена";
@@ -100,14 +101,15 @@ namespace Team.Service.Implementations
             var baseResponse = new BaseResponse<bool>();
             try
             {
-                var team = await _teamRepository.Get(id);
+                var team = await _teamRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (team == null)
                 {
                     baseResponse.Description = "Команда не найдена";
                     baseResponse.StatusCode = StatusCode.TeamNotFound;
                     return baseResponse;
                 }
-                baseResponse.Data = await _teamRepository.Delete(team);
+                await _teamRepository.Delete(team);
+                baseResponse.Data = true;
                 return baseResponse;
             }
             catch (Exception ex)
@@ -149,7 +151,7 @@ namespace Team.Service.Implementations
             var baseResponse = new BaseResponse<Domain.Entity.Team>();
             try
             {
-               var team=await _teamRepository.Get(id);
+               var team=await _teamRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (team == null) {
                     baseResponse.StatusCode = StatusCode.TeamNotFound;
                     baseResponse.Description = "team not found";
