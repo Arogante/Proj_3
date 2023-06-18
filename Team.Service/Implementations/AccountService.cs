@@ -83,7 +83,6 @@ namespace Team.Service.Implementations
         {
             try
             {
-                //var anyUser = await _userRepository.GetAll().FirstOrDefaultAsync();//TO REMOVE
                 var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Name == model.Name);
                 if (user == null)
                 {
@@ -92,7 +91,7 @@ namespace Team.Service.Implementations
                         Description = "Пользователь не найден"
                     };
                 }
-
+                var passTest = HashPasswordHelper.HashPassowrd(model.Password);//TO REMOVE
                 if (user.Password != HashPasswordHelper.HashPassowrd(model.Password))
                 {
                     return new BaseResponse<ClaimsIdentity>()

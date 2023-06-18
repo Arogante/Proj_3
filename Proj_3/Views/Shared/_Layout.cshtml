@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SomeText</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Proj_3.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/backImage.css" />
+    <link rel="stylesheet" href="~/css/menu.css" />
+    <link rel="stylesheet" href="~/css/paragraph.css" />
+    <link rel="stylesheet" href="~/css/card.css" />
+    <link rel="stylesheet" href="~/css/label.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 </head>
 <body>
     <header>
@@ -32,13 +39,40 @@
                         }
                         @if (!User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle paragraphLayout active text-black" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family:'Comic Sans MS'; font-weight: bold;">
+                                    Аккаунт
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <ul class="nav flex-column paragraphHome">
+                                                    <li class="nav-item text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Account" asp-action="Register">
+                                                            Регистрация
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-itemq text-center">
+                                                        <a class="nav-link active text-white" asp-controller="Account" asp-action="Login">
+                                                            Вход
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
 
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link paragraphLayout active text-black" asp-controller="User" asp-action="GetUsers" style="font-family:'Comic Sans MS'; font-weight: bold;">
+                                    Админ панель
+                                </a>
+                            </li>
                         }
 
                     </ul>
@@ -70,10 +104,12 @@
             &copy; 2023 - TeamLobby - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="~/js/modal.js"></script>
+    @await RenderSectionAsync("pageScripts", required: false)
 </body>
 </html>

@@ -23,17 +23,17 @@
                                 <div class="form-group">
                                     <input asp-for="Name" class="form-control textbox-dg font-weight-bold text-center" placeholder="Имя" type="text">
                                 </div>
+                                <span class="text-black" style="font-size: small; font-family:'Comic Sans MS'">Пароль должен быть длиной больше 6 символов и иметь только латинские символы</span>
                                 <div class="form-group">
                                     <input autocomplete="new-password" asp-for="Password" placeholder="Пароль" class="form-control textbox-dg font-weight-bold text-center" type="password">
                                 </div>
-                                <span class="text-black" style="font-size: small; font-family:'Comic Sans MS'">Пароль должен быть длиной больше 6 символов и иметь только латинские символы</span>
+                                
                                 <div class="form-group">
                                     <input autocomplete="new-password" asp-for="PasswordConfirm" placeholder="Подтвердите пароль" class="form-control textbox-dg font-weight-bold text-center" type="password">
                                 </div>
-                                <div>
-                                    <h2 class="paragraphHome text-center"><a asp-controller="Account" target="_blank" asp-action="Login" style="color:deepskyblue;">Вход</a></h2>
+                                <div class="row justify-content-center mt-3">
+                                <button class="btn btn-success btn-lg w-auto"  type="submit">Зарегистрироваться</button>
                                 </div>
-                                <button class="btn btn-success btn-lg float-right" type="submit">Отправить</button>
                             </form>
                         </div>
                     </div>

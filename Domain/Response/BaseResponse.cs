@@ -15,6 +15,7 @@ namespace Domain.Response
     }
     public interface IBaseResponse<T>
     {
+        string Description { get; }
         public StatusCode StatusCode{ get; }
        public T Data { get; }
     }

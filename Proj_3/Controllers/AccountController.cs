@@ -64,7 +64,7 @@ namespace Proj_3.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("qqIndex", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         /*[HttpPost]
