@@ -1,8 +1,27 @@
-﻿@model IEnumerable<Domain.Entity.Team>
+﻿@using Domain.ViewModel.Team
+@model List<Domain.Entity.Team>
+
 @{
-	ViewBag.Title = "title";
-	Layout = "_Layout";
+    ViewBag.Title = "Список команд";
+    Layout = "_Layout";
 }
+
+@{
+    var cardStyle = "col-md-12";
+    if (Model != null)
+    {
+        switch (Model.Count)
+        {
+            case 2:
+                cardStyle = "col-md-6";
+                break;
+            case 3:
+                cardStyle = "col-md-4";
+                break;
+        }
+    }
+}
+
 
 <style>
     .card-buttons-group {
@@ -11,15 +30,131 @@
     }
 </style>
 
-<div class="card-buttons-group">
-    <button class="btn btn-danger" id='hideCardsId'>Скрыть</button>
-    <button class='btn btn-success' id='showCardsId'>Показать</button>
+<div class="card col-md-12" style="margin: 10px;">
+    <div class="card-buttons-group">
+        <button class='btn btn-primary' id='compareBtnId'></button>
+        @if (User.IsInRole("Admin"))
+        {
+            <button class='btn btn-success' id='addTeamId'>Добавить</button>
+        }
+    </div>
 </div>
 
+<div style="padding: 10px;"></div>
+@if (Model == null)
+{
+    <div class="card col-md-12">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://images.wallpaperscraft.ru/image/single/bmw_fary_podsvetka_137326_1280x720.jpg"
+                 class="img-fluid rounded-start rounded">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Список машин пуст :(</h5>
+                    <p class="card-text">
+                        Список пополниться позже, не расстраивайтесь
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding: 10px;"></div>
+    <div class="card text-center">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var team in Model)
+        {
+            <div class="row row-cols-1 @cardStyle text-center">
+                <div class="col" style="padding: 10px;">
+                    <div class="card">
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(team?.Avatar ?? Array.Empty<byte>())" alt="@team.Name" />
+                        <div class="card-body">
+                            <h5 class="card-title">Название: @team.Name</h5>
+                            <p class="card-text">Краткое описание: @team.Description.Substring(0, 40) ...</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Рейтинг: @team.Points очков</li>
+                            <li class="list-group-item">Количество выполненных задач: @team.FinishedTasks</li>
+                        </ul>
+                        <div class="card-body">
+                            <button class="btn btn-primary" onclick="openModal({ url: '/Car/GetCar', data: '@team.Id' })"
+                            data-toggle="ajax-modal" data-target="Modal">
+                                Открыть
+                            </button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Team" asp-action="DeleteTeam" asp-route-id="@team.Id" class="btn btn-danger">Удалить</a>
+                            }
+                            <a asp-controller="Order" asp-action="CreateOrder" asp-route-id="@team.Id" class="btn btn-success">Нанять</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
 
-@foreach (var team in Model){
-<h2>@team.Name</h2>
-<p>@team.Description</p>
-<p>Очки - @team.Points</p>
-<p>Завершенные задания - @team.FinishedTasks</p>
+@section pageScripts {
+
+    <script src="~/js/modal.js"></script>
+    <script>
+        let modal = $('#modalWhButtons');
+
+        $('#compareBtnId').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Compare")',
+                success: function (response) {
+                    $('.modal-dialog').addClass("modal-lg");
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                }
+            });
+        });
+
+        $(".btn-close").click(function () {
+            modal.modal('hide');
+        });
+
+        $('#addCarId').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Car/Save',
+                success: function (response) {
+                    $('.modal-dialog').removeClass("modal-lg");
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                },
+                failure: function () {
+                    modal.modal('hide')
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+
+    </script>
 }

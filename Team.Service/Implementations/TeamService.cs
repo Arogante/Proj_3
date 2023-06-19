@@ -10,6 +10,7 @@ using Domain.Response;
 using Domain.Enum;
 using Domain.ViewModel.Team;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.ConstrainedExecution;
 
 namespace Team.Service.Implementations
 {
@@ -21,24 +22,39 @@ namespace Team.Service.Implementations
         {
             _teamRepository = teamRepository;
         }
-        public async Task<IBaseResponse<Domain.Entity.Team>> GetTeam(int id)
+        public async Task<IBaseResponse<Domain.ViewModel.Team.TeamViewModel>> GetTeam(int id)
         {
-            var baseResponse = new BaseResponse<Domain.Entity.Team>();
+            var baseResponse = new BaseResponse<Domain.ViewModel.Team.TeamViewModel>();
             try
             {
                 var team = await _teamRepository.GetAll().FirstOrDefaultAsync(x => x.Id == id);
                 if (team == null)
                 {
-                    baseResponse.Description = "Команда не найдена";
-                    baseResponse.StatusCode = StatusCode.TeamNotFound;
-                    return baseResponse;
+                    return new BaseResponse<TeamViewModel>()
+                    {
+                        Description = "Команда не найдена",
+                        StatusCode = StatusCode.UserNotFound
+                    };
                 }
-                baseResponse.Data = team;
-                return baseResponse;
+                var data = new TeamViewModel()
+                {
+
+                    CreationTime = team.CreationTime,
+                    Description = team.Description,
+                    Name = team.Name,
+                    Image = team.Avatar,
+                    FinishedTasks = team.FinishedTasks,
+                    Points=team.Points,
+                };
+                return new BaseResponse<TeamViewModel>()
+                {
+                    StatusCode = StatusCode.OK,
+                    Data = data
+                };
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Domain.Entity.Team>
+                return new BaseResponse<Domain.ViewModel.Team.TeamViewModel>
                 {
                     Description = $"[GetTeam]:{ex.Message}"
                 };

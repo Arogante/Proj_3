@@ -12,7 +12,7 @@ namespace Team.Service.Interfaces
     public interface ITeamService
     {
         Task<IBaseResponse<IEnumerable<Domain.Entity.Team>>> GetTeams();
-        Task<IBaseResponse<Domain.Entity.Team>> GetTeam(int id);
+        Task<IBaseResponse<Domain.ViewModel.Team.TeamViewModel>> GetTeam(int id);
         Task<IBaseResponse<TeamViewModel>> CreateTeam(TeamViewModel teamViewModel);
         Task<IBaseResponse<bool>> DeleteTeam(int id);
         Task<IBaseResponse<Domain.Entity.Team>> GetTeamByName(string name);

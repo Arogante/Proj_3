@@ -14,6 +14,7 @@ namespace Domain.Entity
         public int FinishedTasks { get; set; }
         public DateTime CreationTime { get; set; }
         public int Points { get; set; }
+        public byte[]? Avatar { get; set; }
     }
     
 }
